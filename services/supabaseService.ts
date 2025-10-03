@@ -1,37 +1,29 @@
+import { supabase } from '../lib/supabaseClient';
 import type { IDailyMetric } from '../types';
 
-// Helper to generate mock data for the last N days
-const generateMockData = (days: number): IDailyMetric[] => {
-  const data: IDailyMetric[] = [];
-  const today = new Date();
+export const fetchDailyMetrics = async (): Promise<IDailyMetric[]> => {
+  console.log("Fetching daily metrics from Supabase...");
 
-  for (let i = 0; i < days; i++) {
-    const date = new Date();
-    date.setDate(today.getDate() - i);
+  // Call the RPC function in your Supabase project
+  const { data, error } = await supabase.rpc('get_daily_metrics');
 
-    const disparos = Math.floor(Math.random() * 150) + 50; // 50 to 200
-    const primeiraResposta = Math.floor(disparos * (Math.random() * 0.3 + 0.6)); // 60% to 90% of disparos
-    const atendimentoFinalizado = Math.floor(primeiraResposta * (Math.random() * 0.2 + 0.7)); // 70% to 90% of first replies
+  if (error) {
+    // Log the detailed error object from Supabase for better debugging
+    console.error('Error fetching from Supabase RPC:', JSON.stringify(error, null, 2));
+    
+    let userMessage = 'Falha ao buscar dados do Supabase.';
 
-    data.push({
-      date: date.toISOString().split('T')[0], // "YYYY-MM-DD"
-      disparos,
-      primeiraResposta,
-      atendimentoFinalizado,
-    });
+    // Check for a common permission error (Postgres code 42501)
+    if (error.code === '42501') {
+      userMessage += ' Causa provável: Permissão negada. A role "anon" precisa de permissão para executar a função "get_daily_metrics" no banco de dados. Execute "GRANT EXECUTE ON FUNCTION get_daily_metrics() TO anon;" no SQL Editor do Supabase.';
+    } else {
+      userMessage += ` Detalhes: ${error.message}`;
+    }
+
+    throw new Error(userMessage);
   }
-  return data;
-};
 
-
-// This is a mock service to simulate fetching data from Supabase.
-// In a real application, you would use the Supabase client here to query your database.
-export const fetchDailyMetrics = (): Promise<IDailyMetric[]> => {
-  console.log("Fetching daily metrics from mock service...");
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Generate data for the last 60 days
-      resolve(generateMockData(60));
-    }, 1000); // Simulate network delay
-  });
+  // The RPC function is expected to return data in the correct format.
+  // No further mapping should be needed if the function is set up correctly.
+  return data as IDailyMetric[];
 };
