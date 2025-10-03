@@ -4,17 +4,16 @@ import React from 'react';
 const ReplyIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
     fill="none"
     viewBox="0 0 24 24"
+    strokeWidth={1.5}
     stroke="currentColor"
-    strokeWidth={2}
     {...props}
   >
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M3 10h10a8 8 0 018 8v2M3 10l6-6m-6 6l6 6"
+      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
     />
   </svg>
 );

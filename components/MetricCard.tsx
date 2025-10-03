@@ -1,36 +1,26 @@
-
 import React from 'react';
 
 interface MetricCardProps {
   title: string;
   value: string;
-  icon: React.ReactNode;
   description: string;
-  colorClass: string;
-  progress?: number;
+  icon: React.ElementType;
+  iconBgClass: string;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ title, value, icon, description, colorClass, progress }) => {
+const MetricCard: React.FC<MetricCardProps> = ({ title, value, description, icon: Icon, iconBgClass }) => {
   return (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col justify-between backdrop-blur-sm">
+    <div className="bg-[#2a2d5a]/30 border border-[#4a4e91]/50 rounded-xl p-5 shadow-lg flex flex-col justify-between h-48 backdrop-blur-sm hover:border-[#6a6ec1] transition-colors duration-300">
       <div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-400">{title}</p>
-          <div className={colorClass}>{icon}</div>
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconBgClass}`}>
+            <Icon className="w-6 h-6 text-white" />
+          </div>
+          <h3 className="font-semibold text-sm text-gray-300 tracking-wider">{title}</h3>
         </div>
-        <div className="mt-2">
-          <p className="text-4xl font-bold text-white">{value}</p>
-          <p className="text-xs text-gray-500 mt-1">{description}</p>
-        </div>
+        <p className="text-xs text-gray-500 mt-2 ml-1">{description}</p>
       </div>
-      {progress !== undefined && (
-        <div className="w-full bg-gray-700 rounded-full h-2 mt-4 overflow-hidden">
-          <div
-            className={`h-2 rounded-full transition-all duration-500 ease-out ${colorClass.replace('text-', 'bg-')}`}
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-      )}
+      <p className="text-4xl lg:text-5xl font-bold text-white text-right">{value}</p>
     </div>
   );
 };

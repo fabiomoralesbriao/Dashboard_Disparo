@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -8,9 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* Custom font for a more polished look, falling back to Tailwind's defaults */
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
       body {
+        background-color: #101124;
+        background-image: radial-gradient(circle at top left, #1a1c3a, #101124 40%);
         font-family: 'Inter', sans-serif;
+      }
+      /* Style date picker icon for dark mode */
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1) brightness(0.8) sepia(0.5) saturate(5) hue-rotate(180deg);
+        cursor: pointer;
       }
     </style>
   <script type="importmap">
@@ -23,7 +29,7 @@
 }
 </script>
 </head>
-  <body class="bg-gray-900">
+  <body class="text-gray-200">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
