@@ -1,0 +1,5 @@
+{
+  "name": "Dashboard de Agente de IA",
+  "description": "Um painel de controle para visualizar métricas de desempenho de um agente de IA de disparo em massa integrado ao Supabase.",
+  "requestFramePermissions": []
+}
